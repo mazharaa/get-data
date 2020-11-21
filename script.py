@@ -3,8 +3,7 @@ import sys
 
 usr = sys.argv[1]
 pw = sys.argv[2]
-# db = sys.argv[3]
-# local_url = "jdbc:mysql://localhost:3306/"+db
+db = "jdbc:mysql://" + sys.argv[3]
 
 if __name__ == "__main__":
     spark = (SparkSession
@@ -41,19 +40,9 @@ if __name__ == "__main__":
             (load_table
                 .write
                 .format("jdbc")
-                .option("url", "jdbc:mysql://localhost:3306/test_db")
+                .option("url", db)
                 .option("driver", "com.mysql.jdbc.Driver")
                 .option("dbtable", i)
                 .option("user", usr)
                 .option("password", pw)
                 .save())
-
-    # loadDB = (spark
-    #         .read
-    #         .format("jdbc")
-    #         .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014")
-    #         .option("driver", "com.mysql.jdbc.Driver")
-    #         .option("user", "guest")
-    #         .option("password", "relational"))
-    # for tablename in table_list:
-    #     loadDB.option("dbtable", tablename).load().createTempView(tablename)
