@@ -9,4 +9,4 @@ Pre requisite:
 
 Input needed:
 1. MySql username and password.
-2. Your local database target.
+2. Your database target.
