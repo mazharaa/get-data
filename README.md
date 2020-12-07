@@ -2,7 +2,7 @@
 Ingest AdventureWorks2014 database from relational.fit.cvut.cz to local database.
 
 Pre requisite:
-1. Have installed Spark & MySql.
+1. Have installed Spark & MySQL.
 2. Make sure your MySQL has started.
 
 Input needed:
