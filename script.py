@@ -28,37 +28,38 @@ if __name__ == "__main__":
 
     for i in table_array:
 
-        if i in ["AWBuildVersion", "CurrencyRate", "EmployeePayHistory", "ProductReview", "ProductVendor", "PurchaseOrderDetail", "SalesPersonQuotaHistory", "ShoppingCartItem", "TransactionHistory", "TransactionHistoryArchive"]:
+        if i == "AWBuildVersion":
             load_table = spark \
                 .read \
                 .format("jdbc") \
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "ModifiedDate CHAR(21)") \
+                .option("customSchema", "VersionDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
 
-        elif i in ["BillOfMaterials", "ProductCostHistory", "ProductListPriceHistory", "SalesTerritoryHistory", "SpecialOffer"]:
+        elif i == "CurrencyRate":
             load_table = spark \
                 .read \
                 .format("jdbc") \
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "EndDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "CurrencyRateDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
 
-        elif i == "Address":
+        elif i == "EmployeePayHistory":
             load_table = spark \
                 .read \
                 .format("jdbc") \
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
-                .option("dbtable", "(SELECT AddressID, AddressLine1, AddressLine2, City, StateProvinceID, PostalCode, ST_AsWKT(SpatialLocation) AS SpatialLocation, rowguid, ModifiedDate FROM Address) as Address") \
+                .option("dbtable", i) \
+                .option("customSchema", "RateChangeDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -70,7 +71,43 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "SellEndDate CHAR(21), DiscontinuedDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "SellStartDate date, SellEndDate date, DiscontinuedDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i == "ProductReview":
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "ReviewDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i == "ProductVendor":
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "LastReceiptDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+        
+        elif i == "PurchaseOrderDetail":
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "DueDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -82,7 +119,7 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "ShipDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "OrderDate date, ShipDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -94,7 +131,19 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "DueDate CHAR(21), ShipDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "OrderDate date, DueDate date, ShipDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i == "SalesPersonQuotaHistory":
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "QuotaDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -106,7 +155,19 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "StartTime CHAR(8), EndTime CHAR(8), ModifiedDate CHAR(21)") \
+                .option("customSchema", "StartTime string, EndTime string") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i == "ShoppingCartItem":
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "DateCreated date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -118,7 +179,7 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "EndDate CHAR(21), DueDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "StartDate date, EndDate date, DueDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
@@ -130,7 +191,31 @@ if __name__ == "__main__":
                 .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
                 .option("driver", "com.mysql.jdbc.Driver") \
                 .option("dbtable", i) \
-                .option("customSchema", "ScheduledEndDate CHAR(21), ActualStartDate CHAR(21), ActualEndDate CHAR(21), ModifiedDate CHAR(21)") \
+                .option("customSchema", "ScheduledStartDate date, ScheduledEndDate date, ActualStartDate date, ActualEndDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i in ["TransactionHistory", "TransactionHistoryArchive"]:
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "TransactionDate date") \
+                .option("user", "guest") \
+                .option("password", "relational") \
+                .load()
+
+        elif i in ["BillOfMaterials", "ProductCostHistory", "ProductListPriceHistory", "SalesTerritoryHistory", "SpecialOffer"]:
+            load_table = spark \
+                .read \
+                .format("jdbc") \
+                .option("url", "jdbc:mysql://relational.fit.cvut.cz:3306/AdventureWorks2014") \
+                .option("driver", "com.mysql.jdbc.Driver") \
+                .option("dbtable", i) \
+                .option("customSchema", "StartDate date, EndDate date") \
                 .option("user", "guest") \
                 .option("password", "relational") \
                 .load()
