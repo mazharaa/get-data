@@ -1,4 +1,4 @@
-# ingest-AdventureWorks2014-db-to-local-db
+# ingest-AdventureWorks2014-db
 Ingest AdventureWorks2014 database from relational.fit.cvut.cz to local database.
 
 Pre requisite:
